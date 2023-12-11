@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+  <meta charset="iso-8859-1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="../../views/assets/css/bootstrap.min.css">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> {subtitulo} </title>
+</head>
+
+<body>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">CALCULADORA ISBN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Acerca de</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><P style="font-size: 20; color: red;">USUARIO: {USER} </P></a>
+                    </li>
+
+                    <br>
+                    <br>
+
+                    <a class="boton boton-solid-danger" href="../../auth/logout.php" ><i class='bx bx-log-out'></i> SALIR</a>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {MAIN_CONTENT}
+    
+    
+    <!-- Pie de Página -->
+    <footer class="bg-dark text-light text-center p-3 mt-4">
+        <p>&copy; 2023 Mi Página. Todos los derechos reservados.</p>
+    </footer>  
+
+
+
+  <!-- ESTOS SON LOS SCRIPTS "GLOBALES QUE USAN TODOS" -->
+  <script src="../../views/assets/js/bootstrap.bundle.min.js"></script>
+  <!--AQUI SE INPORTA EL SCRIPT DE CADA MODULO-->
+  <!--MODULO_JS-->
+
+</body>
+
+</html>

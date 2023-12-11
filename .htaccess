@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^home/ home/controller.php
+RewriteRule ^contadores/ contadores/controller.php
+RewriteRule ^contribuyentes/ contribuyentes/controller.php
+

@@ -36,26 +36,27 @@ function handler()
     switch ($event) {
 
         case GET_CONTADOR:
-
-
             $mensaje = isset($_SESSION['mensaje_action']) ? $_SESSION['mensaje_action'] : '';
             unset($_SESSION['mensaje_action']);
             $contadores = $contador->get();
             $contadores['mensaje'] = $mensaje;
-          
-
             retornar_vista(VIEW_GET_CONTADOR, $contadores);
-
             break;
 
         case SET_CONTADOR:
 
-            if (!empty($_POST)) {
-                $result_set = $usuario->set($_POST);
-                $_SESSION['mensaje_action'] = $result_set;
-                header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                print_r($_POST);
+                
+                $contador_set = $contador->set($_POST);
+                $_SESSION['mensaje_action'] = $contador_set;
+
+                echo $_SESSION['mensaje_action'] ;
+
+                exit();
             } else {
-                header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+                $data = $_POST;
+                retornar_vista(VIEW_SET_CONTADOR, $data);
             }
 
             break;

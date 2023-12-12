@@ -1,36 +1,36 @@
 <?php
 # Importar modelo de abstracción de base de datos
-require_once('../core/db_abstract_model.php');
+require_once('../models/db_abstract_model.php');
 
-class UsuarioModel extends DBAbstractModel
+class ContadorModel extends DBAbstractModel
 {
 
     public function get()
     {
-        $this->query = "SELECT * FROM usuarios";
+        $this->query = "SELECT * FROM contadores";
         $this->get_results_from_query();
 
         if (!$this->rows) {
             return [
-                'mensaje' => 'No se encontraron usuarios',
+                'mensaje' => 'No se encontraron contadores',
                 'registros' => []
             ];
         }
         $resultados = array_map(function ($row) {
             return [
-                'Id' => $row['ClaveUsu'],
-                'Nombre' => $row['Nombre'],
-                'Paterno' => $row['Paterno'],
-                'Materno' => $row['Materno'],
-                'Colonia' => $row['Colonia'],
-                'Calle' => $row['Calle'],
-                'Numero' => $row['Numero'],
-                'Telefono' => $row['Telefono']
+                'Id' => $row['cedula_profecional'],
+                'Nombre' => $row['nombre'],
+                'Apellidos' => $row['apellidos'],
+                'Telefono' => $row['Telefono'],
+                'RFC' => $row['rfc'],
+                'Especialidad' => $row['especialidad'],
+                'Titulacion' => $row['fecha_titulacion'],
+                'Registro' => $row['fecha_registro']
             ];
         }, $this->rows);
 
         return [
-            'mensaje' => 'USUARIOS encontrados',
+            'mensaje' => 'CONTADORES encontrados',
             'registros' => $resultados
         ];
     }

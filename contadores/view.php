@@ -24,14 +24,14 @@ $diccionario = array(
 
 function get_main_template($value = 'header or footer file')
 {
-    $file = '../frontend/html/main_' . $value . '.html';
+    $file = '../views/main_' . $value . '.html';
     $main_template = file_get_contents($file);
     return $main_template;
 }
 
 function get_vista_html($form = 'get')
 {
-    $file = '../frontend/html/usuarios/usuario_' . $form . '.html';
+    $file = '../views/contadores/contadores_' . $form . '.html';
     $template = file_get_contents($file);
     return $template;
 }
@@ -80,38 +80,33 @@ function retornar_vista($vista, $data = array())
     } else {
         $alert = "";
     }
- ########### fin mensaje de alerta ########
+    ########### fin mensaje de alerta ########
 
-    #######tabla contenido USUARIOS###
+    #######tabla contenido CONTADORES###
     $comilla = "'";
     $tabla_body = '<tbody>';
     $contador_lista = 1;
     foreach ($data['registros'] as $registro) {
-        if (!empty($registro['Nombre']) && !empty($registro['Paterno'])) // Se verifica que el campo Nombre no esté vacío 
+        if (!empty($registro['Nombre']) && !empty($registro['Apellidos'])) // Se verifica que el campo Nombre no esté vacío 
         {
             $fila = '<tr id="' . $registro['Id'] . '">';
             $fila .= '<td>' . $contador_lista++ . '</td>';
             $fila .= '<td>' . $registro['Id'] . '</td>';
-            $fila .= '<td class="celda_oculta">' . $registro['Nombre'] . '</td>';
-            $fila .= '<td class="celda_oculta">' . $registro['Paterno'] . '</td>';
-            $fila .= '<td class="celda_oculta">' . $materno = !empty($registro['Materno']) ? $registro['Materno'] : '-' . '</td>';
-            $fila .= '<td>' . $registro['Nombre'] . ' ' . $registro['Paterno'] . ' ' . $materno = !empty($registro['Materno']) ? $registro['Materno'] : '-' . '</td>';
-            $fila .= '<td>' . $registro['Colonia'] . '</td>';
-            $fila .= '<td>' . $registro['Calle'] . '</td>';
-            $fila .= '<td>' . $registro['Numero'] . '</td>';
+            $fila .= '<td>' . $registro['Nombre'] . ' ' . $registro['Apellidos'] . '</td>';
             $fila .= '<td>' . $registro['Telefono'] . '</td>';
-            $fila .= '<td>' . '<a class="boton boton-outline-warning" href="#" onclick="editarUsuario(' . $comilla . $registro['Id'] . $comilla . ')"><i class="bx bx-edit"></i>Editar</a>' . '</td>';
-            $fila .= '<td>' . '<a class="boton boton-outline-danger" href="#" onclick="mostrarModal(' . $comilla . $registro['Id'] . $comilla . ',' . $comilla . $registro['Nombre'] . ' ' . $registro['Paterno'] . $comilla . ')"><i class="bx bx-trash"></i>Eliminar</a>'
-                . '</td>';
+            $fila .= '<td>' . $registro['RFC'] . '</td>';
+            $fila .= '<td>' . $registro['Especialidad'] . '</td>';
+            $fila .= '<td>' . $registro['Titulacion'] . '</td>';
+            $fila .= '<td>' . $registro['Registro'] . '</td>';
+            $fila .= '<td>' . '<a class="boton boton-outline-warning" href="#" > <i class="bx bx-edit"></i>Editar</a>' . '</td>';
+            $fila .= '<td>' . '<a class="boton boton-outline-danger" href="#"  > <i class="bx bx-trash"></i>Eliminar </a>'. '</td>';
             $tabla_body .= $fila . '</tr>';
         }
     }
     $tabla_body .= '</tbody>';
-
-
     ######fin tabla#######
 
-    $html = str_replace('{contenido}', get_vista_html($vista), $html);
+    $html = str_replace('{MAIN_CONTENT}', get_vista_html($vista), $html);
     $html = str_replace('{TBODY}', $tabla_body, $html);
     $html = str_replace('{ALERT}', $alert, $html);
     $html = str_replace('{TABLA_NAME}', 'USUARIOS', $html);

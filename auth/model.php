@@ -21,7 +21,7 @@ class AuthModel extends DBAbstractModel
         $user = $data['user'];
         $password = $data['password'];
 
-        $this->query = "SELECT * FROM users WHERE user = '$user' AND password = '$password' ";
+        $this->query = "SELECT * FROM usuarios WHERE username = '$user' AND password = '$password' ";
         $this->get_results_from_query();
 
         if (!$this->rows) {
@@ -33,8 +33,8 @@ class AuthModel extends DBAbstractModel
         } else {
             $resultado = array_map(function ($row) {
                 return [
-                    'Id' => $row['Id'],
-                    'user' => $row['user'],
+                    'Id' => $row['usuario_id'],
+                    'user' => $row['username'],
                     'password' => $row['password']
                 ];
             }, $this->rows);

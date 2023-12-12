@@ -1,11 +1,11 @@
 <?php
 session_start();
+require_once('../config.php');
 if (!isset($_SESSION["user_logueado"])) {
-    header("Location: /dwp_2023_pf_bmanuel/index.php");
-  return;
+    header("Location: " . R_INDEX);
+    return;
 }
 
-require_once('../config.php');
 require_once('constants.php');
 require_once('model.php');
 require_once('view.php');
@@ -31,10 +31,25 @@ function handler()
         }
     }
 
-    $usuario = set_obj_usuario();
+    $contador = set_obj_contador();
 
     switch ($event) {
+
+        case GET_CONTADOR:
+
+
+            $mensaje = isset($_SESSION['mensaje_action']) ? $_SESSION['mensaje_action'] : '';
+            unset($_SESSION['mensaje_action']);
+            $contadores = $contador->get();
+            $contadores['mensaje'] = $mensaje;
+          
+
+            retornar_vista(VIEW_GET_CONTADOR, $contadores);
+
+            break;
+
         case SET_CONTADOR:
+
             if (!empty($_POST)) {
                 $result_set = $usuario->set($_POST);
                 $_SESSION['mensaje_action'] = $result_set;
@@ -42,13 +57,7 @@ function handler()
             } else {
                 header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
             }
-            break;
-        case GET_CONTADOR:
-            $mensaje = isset($_SESSION['mensaje_action']) ? $_SESSION['mensaje_action'] : '';
-            unset($_SESSION['mensaje_action']);
-            $usuarios = $usuario->get();
-            $usuarios['mensaje'] = $mensaje;
-            retornar_vista(VIEW_SET_CONTADOR, $usuarios);
+
             break;
         case DELETE_CONTADOR:
             if (!empty($_POST)) {
@@ -70,13 +79,12 @@ function handler()
             }
             break;
         default:
-        header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
-
+            header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
     }
 }
-function set_obj_usuario()
+function set_obj_contador()
 {
-    $obj = new UsuarioModel();
+    $obj = new ContadorModel();
     return $obj;
 }
 handler();

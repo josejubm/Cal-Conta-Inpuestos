@@ -4,7 +4,7 @@ const MODULO = 'contadores/';
 # controladores
 const SET_CONTADOR = 'set';
 const GET_CONTADOR = 'get';
-const DELETE_CONTADOR = 'delete';
+const DELETE_CONTADOR = 'delete'; 
 const EDIT_CONTADOR = 'edit';
 
 #vistas_de_modulo 

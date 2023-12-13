@@ -1,0 +1,43 @@
+<div class="container mt-5">
+    <h1 class="mb-4">EDITAR CONTADPR</h1>
+
+    <form action="{EDIT}" method="post">
+        <div class="mb-3">
+            <label for="cedula_profesional" class="form-label">Cédula Profesional</label>
+            <input type="text" class="form-control" id="cedula_profesional" name="cedula_profesional" value="{CEDULA}" required>
+            <input type="hidden" id="cedula_old" name="cedula_old" value="{CEDULA_HIDEN}" required>
+
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{NOMBRE}" required>
+        </div>
+        <div class="mb-3">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos"  value="{APELLIDOS}" required>
+        </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo"  value="{CORREO}" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono"  value="{TELEFONO}">
+        </div>
+        <div class="mb-3">
+            <label for="rfc" class="form-label">RFC</label>
+            <input type="text" class="form-control" id="rfc" name="rfc"  value="{RFC}">
+        </div>
+        <div class="mb-3">
+            <label for="especialidad" class="form-label">Especialidad</label>
+            <input type="text" class="form-control" id="especialidad" name="especialidad"  value="{ESPECIALIDAD}">
+        </div>
+    
+        </div>
+
+        <button type="submit" class="btn btn-primary">EDITAR Contador</button>
+
+    </form>
+
+
+</div>

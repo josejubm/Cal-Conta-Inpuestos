@@ -7,6 +7,7 @@ if (!isset($_SESSION["user_logueado"])) {
 }
 
 require_once('constants.php');
+require_once('../extras/constantes_globales.php');
 require_once('model.php');
 require_once('view.php');
 function handler()
@@ -47,12 +48,12 @@ function handler()
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 print_r($_POST);
-                
+
                 $contador_set = $contador->set($_POST);
-                $_SESSION['mensaje_action'] = $contador_set;
 
-                echo $_SESSION['mensaje_action'] ;
+                $_SESSION['mensaje_action'] = $contador_set['menss'];
 
+                header("Location: " . RAIZ . MODULO . GET_CONTADOR);
                 exit();
             } else {
                 $data = $_POST;
@@ -61,22 +62,56 @@ function handler()
 
             break;
         case DELETE_CONTADOR:
-            if (!empty($_POST)) {
-                $result_delete = $usuario->delete($_POST['id_delete']);
-                $_SESSION['mensaje_action'] = $result_delete;
-                header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+            $id = isset($_GET['cedula']) ? $_GET['cedula'] : null;
+            if (isset($id)) {
+
+                $contador_delete = $contador->delete($id);
+                $_SESSION['mensaje_action'] = $contador_delete['menss'];
+
+                echo  $_SESSION['mensaje_action'];
+
+                header("Location: " . RAIZ . MODULO . GET_CONTADOR);
             } else {
-                header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+                $data = $_POST;
+                retornar_vista(VIEW_GET_CONTADOR, $data);
             }
-            /* header("Location: /dwp_2023_pf_bmanuel/autores/mostrar/"); */
+
+            exit();
             break;
+
         case EDIT_CONTADOR:
             if (!empty($_POST)) {
-                $result_edited = $usuario->edit($_POST);
+                print_r($_POST);
+
+                $result_edited = $contador->edit($_POST);
                 $_SESSION['mensaje_action'] = $result_edited;
+
+
                 header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+                exit();
             } else {
-                header('Location: ' . RAIZ . MODULO . GET_CONTADOR . '/');
+                $id = $_GET['cedula'];
+                $contadores = $contador->get();
+                if ($contadores && isset($contadores['registros'])) {
+                    $contadorEncontrado = null;
+                    // Iterar sobre los contadores
+                    foreach ($contadores['registros'] as $contadorData) {
+                        if ($contadorData['Id'] === $id) {
+                            // Encontrar el contador que coincide con la cédula
+                            $contadorEncontrado = $contadorData;
+                            break;
+                        }
+                    }
+                    if ($contadorEncontrado) {
+                        retornar_vista2(VIEW_EDIT_CONTADOR, $contadorEncontrado);
+                        exit();
+                    } else {
+                        echo "No se encontró un contador con la cédula especificada.";
+                    }
+                } else {
+                    echo "No se encontraron contadores.";
+                }
+                exit();
             }
             break;
         default:

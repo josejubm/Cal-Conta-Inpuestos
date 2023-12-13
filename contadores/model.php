@@ -7,7 +7,10 @@ class ContadorModel extends DBAbstractModel
 
     public function get()
     {
-        $this->query = "SELECT * FROM contadores";
+        $this->query = "SELECT c.*, u.username
+        FROM contadores c
+        LEFT JOIN usuarios u ON c.cedula_profesional = u.contador_cedula;
+        ";
         $this->get_results_from_query();
 
         if (!$this->rows) {
@@ -18,12 +21,14 @@ class ContadorModel extends DBAbstractModel
         }
         $resultados = array_map(function ($row) {
             return [
-                'Id' => $row['cedula_profecional'],
+                'Id' => $row['cedula_profesional'],
                 'Nombre' => $row['nombre'],
                 'Apellidos' => $row['apellidos'],
-                'Telefono' => $row['Telefono'],
+                'Correo' => $row['correo'],
+                'Telefono' => $row['telefono'],
                 'RFC' => $row['rfc'],
                 'Especialidad' => $row['especialidad'],
+                'Usuario' => $row['username'],
                 'Titulacion' => $row['fecha_titulacion'],
                 'Registro' => $row['fecha_registro']
             ];
@@ -37,33 +42,44 @@ class ContadorModel extends DBAbstractModel
 
     public function set($data_insert = array())
     {
-        $id  = $data_insert['ClaveUsu'];
-        $nombre  = $data_insert['nombre'];
-        $paterno = $data_insert['paterno'];
-        $materno = $data_insert['materno'];
-        $colonia = $data_insert['colonia'];
-        $calle = $data_insert['calle'];
-        $numero = $data_insert['numero'];
+        // Datos del contador
+        $cedula_profesional = $data_insert['cedula_profesional'];
+        $nombre = $data_insert['nombre'];
+        $apellidos = $data_insert['apellidos'];
+        $correo = $data_insert['correo'];
         $telefono = $data_insert['telefono'];
+        $rfc = $data_insert['rfc'];
+        $especialidad = $data_insert['especialidad'];
+        $fecha_titulacion = $data_insert['fecha_titulacion'];
+
+        // Datos del usuario
+        $usuario = $data_insert['usuario'];
+        $password = $data_insert['password'];
+        $tipo = $data_insert['tipo'];
 
         // Comprobar si los datos del usuarios ya existen
-        $this->query = "SELECT * FROM usuarios WHERE ClaveUsu = '$id' ";
+        $this->query = "SELECT * FROM contadores WHERE  cedula_profesional = '$cedula_profesional' ";
         $this->get_results_from_query();
 
         if (count($this->rows) > 0) {
 
-            $mensaje = "Error: El Usuarios [ $nombre $paterno $materno ] ya existe";
+            $mensaje = "Error: El Contador [ $nombre $apellidos ] ya existe";
             return array(
                 'tipo' => "error",
                 'menss' => $mensaje
             );
         } else {
             // Insertar los datos del Usuario
-            $this->query = "INSERT INTO usuarios (ClaveUsu, Nombre, Paterno, Materno, Colonia, Calle, Numero, Telefono)
-                            VALUES ('$id','$nombre', '$paterno', '$materno', '$colonia', '$calle', '$numero', '$telefono')";
+            $this->query = "INSERT INTO contadores (cedula_profesional, nombre, apellidos, correo, telefono, rfc, especialidad, fecha_titulacion)
+                            VALUES ('$cedula_profesional','$nombre', '$apellidos', '$correo', '$telefono', '$rfc', '$especialidad', '$fecha_titulacion')";
             $this->execute_single_query();
 
-            $mensaje = "usuario [ $nombre $paterno $materno ] agregado correctamente";
+            // Insertar los datos del Usuario asociado al Contador
+            $this->query = "INSERT INTO usuarios (username, password, contador_cedula, rol_id)
+                    VALUES ('$usuario', '$password', '$cedula_profesional', '$tipo')";
+            $this->execute_single_query();
+
+            $mensaje = "Contador [$nombre $apellidos] y Usuario [$usuario] agregados correctamente";
 
             return array(
                 'tipo' => "success",
@@ -74,66 +90,69 @@ class ContadorModel extends DBAbstractModel
 
     public function edit($data_new = array())
     {
-        $id_old = $data_new['ClaveUsu_old'];
-        $id  = $data_new['ClaveUsu'];
+        $id_old = $data_new['cedula_old'];
+        $id  = $data_new['cedula_profesional'];
         $nombre  = $data_new['nombre'];
-        $paterno = $data_new['paterno'];
-        $materno = $data_new['materno'];
-        $colonia = $data_new['colonia'];
-        $calle = $data_new['calle'];
-        $numero = $data_new['numero'];
+        $apellidos = $data_new['apellidos'];
+        $correo = $data_new['correo'];
         $telefono = $data_new['telefono'];
-            
-         // Comprobar si los datos del autor existen
-         $this->query = "SELECT * FROM usuarios WHERE ClaveUsu ='$id_old'";
-         $this->get_results_from_query();
-         $data  = $this->rows;
-         if (count($this->rows) > 0) {
-            $this->query = "UPDATE usuarios SET
-                            ClaveUsu='$id',
-                            Nombre='$nombre',
-                            Paterno='$paterno',
-                            Materno='$materno',
-                            Colonia='$colonia',
-                            Calle='$calle',
-                            Numero='$numero',
-                            Telefono = '$telefono'
-                            WHERE ClaveUsu=$id_old";
-            $this->execute_single_query();
- 
-             $mensaje = $this->mensaje = "SE MODIFICO EL USUARIO: " . $data[0]['Nombre'] . " " . $data[0]['Paterno'] ." " . $data[0]['Materno'] . "";
-             return array(
-                 'tipo' => "success",
-                 'menss' => $mensaje
-             );
-         } else {
-             $mensaje = "NO SE PUDO MODIFICAR AL USUARIO";
-             return array(
-                 'tipo' => "error",
-                 'menss' => $mensaje
-             );
-         }
-     }
+        $rfc = $data_new['rfc'];
+        $especialidad = $data_new['especialidad'];
     
-
-    public function delete($id = '')
-    {
-        // Comprobar si los datos del usuarios existen
-        $this->query = "SELECT * FROM usuarios WHERE ClaveUsu ='$id'";
+        // Comprobar si los datos del autor existen
+        $this->query = "SELECT * FROM contadores WHERE cedula_profesional ='$id_old'";
         $this->get_results_from_query();
         $data  = $this->rows;
-
         if (count($this->rows) > 0) {
-            $this->query = "DELETE FROM usuarios WHERE ClaveUsu=$id";
+            $this->query = "UPDATE contadores SET
+                            cedula_profesional='$id',
+                            nombre='$nombre',
+                            apellidos='$apellidos',
+                            correo='$correo',
+                            telefono='$telefono',
+                            rfc='$rfc',
+                            especialidad='$especialidad'
+                            WHERE cedula_profesional='$id_old'";
             $this->execute_single_query();
-
-            $mensaje = $this->mensaje = "SE ELIMINO EL USUARIO: " . $data[0]['Nombre'] . " " . $data[0]['Paterno'] ." " . $data[0]['Materno'] . "";
+    
+            $mensaje = $this->mensaje = "SE MODIFICÓ EL Contador: " . $data[0]['nombre'] . " " . $data[0]['apellidos'] . " ";
             return array(
                 'tipo' => "success",
                 'menss' => $mensaje
             );
         } else {
-            $mensaje = "NO EXISTE EL USUARIO";
+            $mensaje = "NO SE PUDO MODIFICAR AL CONTADOR";
+            return array(
+                'tipo' => "error",
+                'menss' => $mensaje
+            );
+        }
+    }
+    
+
+
+    public function delete($id = '')
+    {
+        // Comprobar si los datos del usuarios existen
+        $this->query = "SELECT * FROM contadores LEFT JOIN usuarios ON contadores.cedula_profesional = usuarios.contador_cedula WHERE contadores.cedula_profesional = '$id'";
+        $this->get_results_from_query();
+        $data  = $this->rows;
+
+        if (count($this->rows) > 0) {
+            $this->query = "DELETE FROM usuarios WHERE contador_cedula = '$id';";
+            $this->execute_single_query();
+
+            $this->query = "DELETE FROM contadores WHERE cedula_profesional = '$id'";
+            $this->execute_single_query();
+
+            $mensaje = $this->mensaje = "SE ELIMINO EL CONTADOR: " . $data[0]['nombre'] . " " . $data[0]['apellidos'] . " Y SU USUARIO ASOCIADO" . $data[0]['username'] . "";
+
+            return array(
+                'tipo' => "success",
+                'menss' => $mensaje
+            );
+        } else {
+            $mensaje = "NO EXISTE EL CONTADOR";
             return array(
                 'tipo' => "error",
                 'menss' => $mensaje

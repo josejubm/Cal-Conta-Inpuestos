@@ -1,123 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        body {
-            background-color: #5086c1;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-image: url('./views/frontend/images/fondo_login.png');
+        background-size: cover;
+        background-position: center;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
 
-        .container {
-            width: 400px;
-            margin: 100px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px 0px #cfcfcf;
-        }
+    .container {
+        width: 300px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px #cfcfcf;
+        transition: box-shadow 0.3s ease;
+        line-height: 1.5; /* Añadido para centrar verticalmente */
+    }
 
-        h2 {
-            margin-top: 0;
-            text-align: center;
-            color: #333;
-        }
+    .container:hover {
+        box-shadow: 0px 0px 20px 0px #cfcfcf;
+    }
 
-        input[type=text],
-        input[type=password] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            font-size: 15px;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
 
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0 20px 0;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+        border-color: #42ab49;
+    }
+
+    button {
+        background-color: #42ab49;
+        color: white;
+        font-size: 15px;
+        padding: 14px 20px; /* Aumenté el espaciado horizontal */
+        border: none;
+        border-radius: 25px; /* Botón más redondeado */
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+        outline: none; /* Elimina el contorno al hacer clic */
+    }
+
+    button:hover {
+        background-color: #3a9e42;
+    }
+
+    .imgcontainer {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    img.avatar {
+        width: 100px;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    .imgcontainer:hover img.avatar {
+        transform: scale(1.1);
+    }
+
+    label {
+        color: black;
+        font-size: 17px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Change styles for small screens */
+    @media screen and (max-width: 400px) {
         button {
-            background-color: #42ab49;
-            color: white; 
-            font-size: 15px;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
             width: 100%;
         }
+    }
+</style>
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-        }
-
-        .imgcontainer {
-            text-align: center;
-            margin: 24px 0 12px 0;
-            position: relative;
-        }
-
-        img.avatar {
-            width: 100px;
-            border-radius: 50%;
-        }
-
-        .container form {
-            border: none;
-        }
-
-        .container label {
-            color: black;
-            font-size: 17px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .container span.psw {
-            float: right;
-            padding-top: 16px;
-        }
-
-        /* Change styles for span and cancel button on extra small screens */
-        @media screen and (max-width: 300px) {
-            span.psw {
-                display: block;
-                float: none;
-            }
-
-            .cancelbtn {
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
     <div class="container">
         <h2>Iniciar Sesión</h2>
-        <form method="post" action="./auth/auth.php"> 
+        <form method="post" action="./auth/auth.php">
             <div class="imgcontainer">
-                <img src="./frontend/images//login.png" alt="Avatar" class="avatar">
+                <img src="./views/frontend/images/icono_login.png" alt="Avatar" class="avatar">
             </div>
-            <label for="uname"><i class='bx bxs-user' ></i> <b>Usuario</b></label>
-            <input type="text" placeholder="Ingrese Nombre de Usuario" name="user" required >
+            <label for="uname"><i class='bx bxs-user'></i> <b>Usuario</b></label>
+            <input type="text" placeholder="Ingrese Nombre de Usuario" name="user" required>
 
-            <label for="psw"><i class='bx bxs-key' ></i> <b>Contraseña</b></label>
+            <label for="psw"><i class='bx bxs-key'></i> <b>Contraseña</b></label>
             <input type="password" placeholder="Ingrese Contraseña" name="password" required>
             <button type="submit">Iniciar Sesión</button>
         </form>
+    </div>
 
 </body>
 

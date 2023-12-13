@@ -2,64 +2,209 @@
 <html lang="es" dir="ltr">
 
 <head>
-  <meta charset="iso-8859-1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="../../views/assets/css/bootstrap.min.css">
-  <!-- Boxicons CDN Link -->
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> {subtitulo} </title>
+  <!-- Configuración del documento -->
+  <meta charset="utf-8"> <!-- Configura el conjunto de caracteres del documento como UTF-8 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Establece la versión de Internet Explorer -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura la escala inicial del viewport -->
+
+  <title>{subtitulo}</title> <!-- Título del documento, que parece ser dinámico -->
+
+  <!-- Enlaces a hojas de estilo -->
+  <link rel="stylesheet" href="../../views/assets/css/bootstrap.min.css"> <!-- Hoja de estilo de Bootstrap -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> <!-- Hoja de estilo de boxicons -->
+
+  <!-- Estilos internos del documento -->
+  <style>
+    body {
+      padding-top: 56px; /* Añade un espacio de 56px en la parte superior del cuerpo */
+      font-family: 'Arial', sans-serif; /* Configura la fuente del texto */
+      background-color: #f5f5f5; /* Color de fondo del cuerpo */
+      color: #495057; /* Color del texto */
+      overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+    }
+
+    .navbar {
+      background-color: #4caf50; /* Color de fondo de la barra de navegación */
+      padding: 1rem; /* Añade relleno a la barra de navegación */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+      position: fixed; /* Fija la barra de navegación en la parte superior de la ventana */
+      width: 100%; /* Establece el ancho al 100% */
+      z-index: 1000; /* Configura el índice z para la superposición */
+      display: flex; /* Utiliza el modelo de caja flexible */
+      justify-content: space-between; /* Distribuye el espacio entre los elementos */
+      align-items: center; /* Alinea los elementos verticalmente en el centro */
+    }
+
+    .navbar-brand {
+      font-size: 2rem; /* Tamaño de fuente de la marca de la barra de navegación */
+      color: #fff; /* Color del texto de la marca */
+      display: flex; /* Utiliza el modelo de caja flexible */
+      align-items: center; /* Alinea los elementos verticalmente en el centro */
+      cursor: pointer; /* Establece el cursor como apuntador */
+    }
+
+    .navbar-toggler-icon {
+      background-color: #fff; /* Color de fondo del icono del botón de alternancia de la barra de navegación */
+      cursor: pointer; /* Establece el cursor como apuntador */
+      position: relative; /* Establece la posición relativa para permitir el ajuste del margen izquierdo */
+      left: -50px; /* Ajuste del margen a la izquierda */
+    }
+
+    .main-content {
+      padding: 1rem; /* Añade relleno al contenido principal */
+      margin-left: 0; /* Establece el margen izquierdo del contenido principal */
+      margin-top: 40px; /* Ajuste del margen superior para dar espacio a la barra de navegación */
+    }
+
+    .footer {
+      position: fixed; /* Fija el pie de página en la parte inferior de la ventana */
+      bottom: 0; /* Establece la posición en la parte inferior */
+      width: 100%; /* Establece el ancho al 100% */
+      background-color: #4caf50; /* Color de fondo del pie de página */
+      color: #fff; /* Color del texto del pie de página */
+      text-align: center; /* Alinea el texto al centro */
+      padding: 1rem; /* Añade relleno al pie de página */
+    }
+
+    /* Estilos de la barra lateral de navegación */
+    .side-nav {
+      height: 100%; /* Establece la altura al 100% */
+      width: 0; /* Inicialmente establece el ancho en 0 para ocultar la barra lateral */
+      position: fixed; /* Fija la barra lateral en la posición fija */
+      z-index: 1010; /* Configura el índice z para la superposición */
+      top: 0; /* Establece la posición en la parte superior */
+      right: 0; /* Establece la posición en la parte derecha */
+      background-color: #333; /* Color de fondo de la barra lateral */
+      overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+      transition: 0.5s; /* Agrega una transición de 0.5 segundos */
+      padding-top: 60px; /* Añade relleno en la parte superior de la barra lateral */
+      display: flex; /* Utiliza el modelo de caja flexible */
+      flex-direction: column; /* Establece la dirección de la columna */
+      align-items: flex-end; /* Alinea los elementos en la parte derecha */
+    }
+
+    .side-nav a {
+      padding: 15px; /* Añade relleno a los enlaces de la barra lateral */
+      text-decoration: none; /* Elimina la decoración del texto de los enlaces */
+      font-size: 18px; /* Tamaño de fuente de los enlaces de la barra lateral */
+      color: #818181; /* Color del texto de los enlaces de la barra lateral */
+      display: block; /* Convierte los enlaces en bloques para ocupar todo el ancho */
+      transition: 0.3s; /* Agrega una transición de 0.3 segundos */
+      width: 100%; /* Establece el ancho al 100% */
+      box-sizing: border-box; /* Incluye el relleno y el borde en el ancho total */
+    }
+
+    .side-nav a:hover {
+      color: #f1f1f1; /* Cambia el color del texto al pasar el ratón por encima */
+    }
+
+    .close-btn {
+      position: absolute; /* Establece la posición absoluta para el botón de cierre */
+      top: 0; /* Establece la posición en la parte superior */
+      right: 25px; /* Establece la posición a 25px desde la derecha */
+      font-size: 36px; /* Tamaño de fuente del botón de cierre */
+      margin-left: 50px; /* Margen izquierdo del botón de cierre */
+      cursor: pointer; /* Establece el cursor como apuntador */
+    }
+
+    .user-container {
+      display: flex; /* Utiliza el modelo de caja flexible */
+      align-items: center; /* Alinea los elementos verticalmente en el centro */
+      width: 100%; /* Establece el ancho al 100% */
+      padding: 15px; /* Añade relleno al contenedor de usuario */
+      box-sizing: border-box; /* Incluye el relleno y el borde en el ancho total */
+    }
+
+    .user-info {
+      font-size: 20px; /* Tamaño de fuente de la información del usuario */
+      color: #28a745; /* Color del texto de la información del usuario */
+      margin-right: 10px; /* Margen derecho de la información del usuario */
+    }
+
+    .logout-btn {
+      background-color: #dc3545; /* Color de fondo del botón de cierre de sesión */
+      color: #fff; /* Color del texto del botón de cierre de sesión */
+      border: none; /* Elimina el borde del botón de cierre de sesión */
+      padding: 8px 16px; /* Añade relleno al botón de cierre de sesión */
+      border-radius: 5px; /* Agrega bordes redondeados al botón de cierre de sesión */
+      transition: background-color 0.3s ease-in-out; /* Agrega una transición al color de fondo del botón */
+    }
+
+    .logout-btn:hover {
+      background-color: #bd2130; /* Cambia el color de fondo del botón al pasar el ratón por encima */
+    }
+
+    .logo {
+      width: 70px; /* Establece el ancho de la imagen del logo */
+      height: 70px; /* Establece la altura de la imagen del logo */
+      margin-right: 15px; /* Margen derecho de la imagen del logo */
+      border-radius: 50%; /* Otra forma de hacer que la imagen sea redonda */
+      border: 1px solid #fff; /* Añade un borde blanco de 1px */
+      box-shadow: 0 0 9px rgba(0, 0, 0, 0.3); /* Agrega una sombra ligera a la imagen del logo */
+    }
+  </style>
 </head>
 
 <body>
-    
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">CALCULADORA ISBN</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Acerca de</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><P style="font-size: 20; color: red;">USUARIO: {USER} </P></a>
-                    </li>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+      <!-- Marca de la barra de navegación -->
+      <div class="navbar-brand" onclick="closeSideNav()">
+        <img class="logo" src="../../views/frontend/images/icono_menu.png" alt="Logo">
+      </div>
+      <!-- Icono del botón de alternancia de la barra de navegación -->
+      <div class="navbar-toggler-icon" onclick="openSideNav()">
+        <img src="../../views/frontend/images/icono_del_menu.png" alt="Icono Menú">
+      </div>
+    </div>
+  </nav>
 
-                    <br>
-                    <br>
+  <!-- Barra lateral de navegación -->
+  <div class="side-nav" id="mySideNav">
+    <!-- Botón de cierre de la barra lateral -->
+    <a class="close-btn" onclick="closeSideNav()">&times;</a>
+    <!-- Enlaces de la barra lateral -->
+    <a class="nav-link" href="#">Inicio</a>
+    <a class="nav-link" href="#">Acerca de</a>
+    <a class="nav-link" href="#">Contacto</a>
+    <!-- Contenedor de usuario -->
+    <div class="user-container">
+      <!-- Información del usuario -->
+      <div class="user-info">
+        <p>USUARIO: {USER}</p>
+      </div>
+      <!-- Botón de cierre de sesión -->
+      <a class="btn logout-btn" href="../../auth/logout.php"><i class='bx bx-log-out'></i> SALIR</a>
+    </div>
+  </div>
 
-                    <a class="boton boton-solid-danger" href="../../auth/logout.php" ><i class='bx bx-log-out'></i> SALIR</a>
-                    
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
+  <!-- Contenido principal -->
+  <div class="main-content">
     {MAIN_CONTENT}
-    
-    
-    <!-- Pie de Página -->
-    <footer class="bg-dark text-light text-center p-3 mt-4">
-        <p>&copy; 2023 Mi Página. Todos los derechos reservados.</p>
-    </footer>  
+  </div>
 
+  <!-- Pie de página -->
+  <footer class="footer">
+    <p>&copy; 2023 Mi Página. Todos los derechos reservados.</p>
+  </footer>
 
-
-  <!-- ESTOS SON LOS SCRIPTS "GLOBALES QUE USAN TODOS" -->
+  <!-- Scripts globales -->
   <script src="../../views/assets/js/bootstrap.bundle.min.js"></script>
-  <!--AQUI SE INPORTA EL SCRIPT DE CADA MODULO-->
-  <!--MODULO_JS-->
+  <!-- Script específico del módulo -->
+  <!-- MODULO_JS -->
+
+  <!-- Scripts para la barra lateral de navegación -->
+  <script>
+    function openSideNav() {
+      document.getElementById("mySideNav").style.width = "250px";
+    }
+
+    function closeSideNav() {
+      document.getElementById("mySideNav").style.width = "0";
+    }
+  </script>
 
 </body>
 

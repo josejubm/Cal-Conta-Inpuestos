@@ -8,7 +8,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
     body {
-        background-image: url('./frontend/images/fondo_login.png');
+        background-image: url('./views/frontend/images/fondo_login.png');
         background-size: cover;
         background-position: center;
         font-family: Arial, sans-serif;
@@ -109,7 +109,7 @@
         <h2>Iniciar Sesión</h2>
         <form method="post" action="./auth/auth.php">
             <div class="imgcontainer">
-                <img src="./frontend/images/icono_login.png" alt="Avatar" class="avatar">
+                <img src="./views/frontend/images/icono_login.png" alt="Avatar" class="avatar">
             </div>
             <label for="uname"><i class='bx bxs-user'></i> <b>Usuario</b></label>
             <input type="text" placeholder="Ingrese Nombre de Usuario" name="user" required>
